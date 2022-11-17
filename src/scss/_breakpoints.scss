@@ -1,0 +1,168 @@
+@mixin flexCenter() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 1135.98px) {
+  .country-content-container {
+    .slider-wrapper {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 1000.98px) {
+  .country-content-container {
+    .slider-wrapper {
+      height: 50vh;
+    }
+  }
+}
+
+@media (max-width: 790.98px) {
+  h1 {
+    font-size: 3.5rem;
+  }
+
+  h2,
+  h3 {
+    font-size: 2.8rem;
+  }
+
+  h4 {
+    font-size: 1.8rem;
+  }
+
+  p,
+  a,
+  button,
+  input,
+  div {
+    font-size: 1.6rem;
+  }
+
+  .primary-nav {
+    div {
+      img {
+        max-width: 15rem;
+      }
+
+      button {
+        font-size: 2.5rem;
+      }
+    }
+  }
+
+  #map {
+    width: 95vw;
+    height: 40vh;
+  }
+
+  // .leaflet-popup-content-wrapper {
+  //   margin: auto;
+  // }
+
+  .leaflet-popup-content {
+    min-width: fit-content;
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .country-content-container {
+    margin-top: 2rem;
+
+    .imgs-flag--coat img {
+      max-width: 15rem;
+    }
+
+    .other-data-grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    .slider-wrapper .slider-btn {
+      font-size: 2rem;
+    }
+  }
+
+  .thank-you-section .partners img {
+    max-width: 7rem;
+  }
+}
+
+@media (max-width: 539.98px) {
+  h1 {
+    font-size: 3rem;
+    text-align: center;
+  }
+
+  .search-container {
+    input {
+      width: 100%;
+      margin-right: 0;
+    }
+
+    form {
+      flex-wrap: wrap;
+    }
+
+    form > div {
+      margin-left: auto;
+    }
+
+    button {
+      margin-top: 1rem;
+    }
+  }
+
+  .country-content-container {
+    .internal-wrapper {
+      flex-wrap: wrap;
+    }
+
+    .country-description img {
+      margin-bottom: 2rem;
+      margin-right: 0;
+    }
+
+    .slider-wrapper {
+      height: 35vh;
+    }
+  }
+}
+
+@media (max-width: 417.98px) {
+  h1 {
+    font-size: 2.7rem;
+  }
+
+  h2,
+  h3 {
+    font-size: 2.3rem;
+  }
+
+  h4 {
+    font-size: 1.7rem;
+  }
+
+  .country-content-container {
+    .imgs-flag--coat img {
+      max-width: 10rem;
+    }
+
+    .other-data-grid .item img {
+      max-width: 5rem;
+    }
+  }
+
+  .thank-you-section {
+    .partners {
+      @include flexCenter();
+      flex-wrap: wrap;
+
+      img {
+        margin: 0.5rem;
+      }
+    }
+  }
+}

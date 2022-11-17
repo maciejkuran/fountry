@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <title>Fountry</title>
+    <meta
+      name="description"
+      content="Find a country with fountry and find out interesting information. The database covers all countries of the world. "
+    />
+
+    <link rel="icon" type="image/x-icon" href="/src/img/fountry avatar.jpg" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
+      integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"
+      integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s="
+      crossorigin=""
+    ></script>
+
+    <script defer type="module" src="/src/js/controller.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+      integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link rel="stylesheet" href="/src/scss/main.scss" />
+  </head>
+  <body>
+    <nav class="primary-nav">
+      <div>
+        <a href="/"><img src="/src/img/fountry logo.png" alt="fountry logo find a country" /></a>
+        <button class="search-countries-btn hide">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+    </nav>
+
+    <main>
+      <header class="home-header">
+        <h1>Find a country with <span>fountry</span></h1>
+        <div class="search-container">
+          <form action="">
+            <input
+              class="country-input"
+              spellcheck="false"
+              placeholder="Type a country"
+              type="text"
+            />
+            <div><button class="primary-button search-btn">Search</button></div>
+          </form>
+          <div class="dropdown-container">
+            <button class="dropdown-btn">
+              select from dropdown<i class="fa-solid fa-caret-down"></i>
+            </button>
+            <div class="dropdown-options hide"></div>
+          </div>
+        </div>
+      </header>
+
+      <section class="thank-you-section">
+        <h3>Credit to</h3>
+        <div class="partners">
+          <a target="_blank" href="https://unsplash.com/"
+            ><img src="/src/img/icons/unsplash.png" alt="unsplash.com"
+          /></a>
+          <a target="_blank" href="https://en.wikipedia.org/wiki/Main_Page"
+            ><img src="/src/img/icons/wikipedia.png" alt="wikipedia"
+          /></a>
+          <a target="_blank" href="https://leafletjs.com/"
+            ><img src="/src/img/icons/leaflet.png" alt="leaflet"
+          /></a>
+          <a target="_blank" href="https://restcountries.com/">
+            <img src="/src/img/icons/rest_countries_api.png" alt="rest countries api" />
+          </a>
+        </div>
+
+        <picture>
+          <img src="/src/img/alexis-antoine-1tqpzFw1fS4-unsplash.jpg" alt="" />
+          <p class="author">
+            Photo by
+            <a target="_blank" href="https://unsplash.com/photos/1tqpzFw1fS4">Alexis Antoine</a>
+            on
+            <a target="_blank" href="https://unsplash.com">Unsplash</a>
+          </p>
+        </picture>
+      </section>
+    </main>
+
+    <footer class="primary-footer">
+      <p>
+        Copyright©
+        <a target="_blank" href="https://maciejkuran.com">maciejkuran.com</a>
+      </p>
+    </footer>
+    <p class="error-label error-label-fixed hide">🔴 Something went wrong</p>
+  </body>
+</html>
