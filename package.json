@@ -11,5 +11,9 @@
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.0",
     "parcel": "^2.8.0"
+  },
+  "dependencies": {
+    "@parcel/resolver-glob": "^2.8.0",
+    "@parcel/transformer-image": "^2.8.0"
   }
 }
