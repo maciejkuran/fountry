@@ -115,6 +115,8 @@ export const loadMap = (coords, city, country) => {
 //Getting unsplash main img
 export const getImages = async country => {
   try {
+    //Setting state.sliderImgs array to empty
+    state.sliderImgs = [];
     //Add %20 if country name contains > 1 word
     const convertedName = addValueBetweenWords(country);
     const data = await fetchData(
