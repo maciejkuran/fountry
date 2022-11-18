@@ -7,17 +7,35 @@ class Infobox {
   #searchBtn = document.querySelector('.search-btn');
 
   //Handlers
-  searchBtnHandler(controlRenderUserInput) {
+  searchBtnHandler(controlOutputBasedOnInput) {
     this.#searchBtn.addEventListener('click', e => {
       e.preventDefault();
-      controlRenderUserInput();
+      controlOutputBasedOnInput();
     });
   }
+
+  dropdownBtnHandler(countrolOutputBasedOnDropdown) {
+    const dropdownBtns = document.querySelectorAll('.option');
+    dropdownBtns.forEach(btn =>
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        countrolOutputBasedOnDropdown(e);
+      })
+    );
+  }
+  //_____________________________
 
   //Getting userInput
   inputValue() {
     const userInput = this.#input.value.toLowerCase().trim();
-    return addValueBetweenWords(userInput);
+    return userInput;
+  }
+
+  //Getting dropdown value
+  dropdownValue(e) {
+    const clickedCountry = e.target.textContent;
+    this.#input.value = clickedCountry;
+    return clickedCountry;
   }
 
   //Creating markup

@@ -65,3 +65,37 @@ const addPropertiesCountryDataObject = data => {
   state.countryData.population = formatNumber(data.population);
   state.countryData.currency = currencyCheck(data);
 };
+
+//Leaflet map
+export const loadMap = (coords, city, country) => {
+  //Before initializing map check for if the map is already initiated or not
+  const container = L.DomUtil.get('map');
+  if (container != null) {
+    container._leaflet_id = null;
+  }
+
+  if (!coords) return;
+
+  const map = L.map('map').setView(coords, 4);
+
+  L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+    {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }
+  ).addTo(map);
+
+  L.marker(coords)
+    .addTo(map)
+    .bindPopup(`🌍 ${city}, the capital of ${country}`)
+    .openPopup();
+
+  map.scrollWheelZoom.disable();
+  map.on('focus', () => {
+    map.scrollWheelZoom.enable();
+  });
+  map.on('blur', () => {
+    map.scrollWheelZoom.disable();
+  });
+};
