@@ -6,25 +6,34 @@ import {
   capitalCheck,
   languagesCheck,
 } from './helpers.js';
-import { COUNTRIES_API } from './config.js';
+import { COUNTRIES_API, UNSPLASH_API } from './config.js';
 
 //Holds important data
 export const state = {
   countryData: {}, // specific country data
   allCountryNames: [], //sorted array of all country names
+  mainImg: {},
+  sliderImgs: [],
 };
 
 //Get all countries in the world
 export const getAllCountryNames = async () => {
-  const data = await fetchData(`${COUNTRIES_API}all`);
-  data.forEach(object => state.allCountryNames.push(object.name.common));
-  state.allCountryNames.sort();
+  try {
+    const data = await fetchData(`${COUNTRIES_API}all`, 'Cannot fetch data.');
+    data.forEach(object => state.allCountryNames.push(object.name.common));
+    state.allCountryNames.sort();
+  } catch (err) {
+    throw err;
+  }
 };
 
 //Getting data based on dropdown click and storing to state.countryData object
 export const getDataBasedOnDropdownClick = async clickedCountry => {
   try {
-    const [data] = await fetchData(`${COUNTRIES_API}name/${clickedCountry}`);
+    const [data] = await fetchData(
+      `${COUNTRIES_API}name/${clickedCountry}`,
+      'Cannot fetch data.'
+    );
     addPropertiesCountryDataObject(data);
   } catch (err) {
     throw err;
@@ -33,14 +42,17 @@ export const getDataBasedOnDropdownClick = async clickedCountry => {
 //Getting data based on user input and storing to state.countryData object
 export const getDataBasedOnInput = async input => {
   try {
-    const allResults = await fetchData(`${COUNTRIES_API}all`);
+    const allResults = await fetchData(
+      `${COUNTRIES_API}all`,
+      'Cannot fetch data.'
+    );
     //prettier-ignore
     const data = allResults.find(country =>
       country.name.common.toLowerCase() === input ||
       country.name.official.toLowerCase() === input
   );
 
-    if (data === undefined) throw new Error('Country not found');
+    if (data === undefined) throw new Error('Country not found.');
 
     addPropertiesCountryDataObject(data);
   } catch (err) {
@@ -66,7 +78,7 @@ const addPropertiesCountryDataObject = data => {
   state.countryData.currency = currencyCheck(data);
 };
 
-//Leaflet map
+//Setting leaflet map
 export const loadMap = (coords, city, country) => {
   //Before initializing map check for if the map is already initiated or not
   const container = L.DomUtil.get('map');
@@ -98,4 +110,39 @@ export const loadMap = (coords, city, country) => {
   map.on('blur', () => {
     map.scrollWheelZoom.disable();
   });
+};
+
+//Getting unsplash main img
+export const getImages = async country => {
+  try {
+    //Add %20 if country name contains > 1 word
+    const convertedName = addValueBetweenWords(country);
+    const data = await fetchData(
+      UNSPLASH_API(convertedName),
+      'Cannot load images.'
+    );
+
+    if (data.results.length === 0) throw new Error('Cannot load images.');
+
+    //Storing data about main image
+    state.mainImg.url = data.results[0].urls.regular;
+    state.mainImg.author = data.results[0].user.name;
+    state.mainImg.authorPage = data.results[0].user.links.html;
+    state.mainImg.imgOnUnsplash = data.results[0].links.html;
+    state.mainImg.download = data.results[0].links.download;
+    //Storing data - slider contains 6 images
+    const slideNumbers = [1, 2, 3, 4, 5, 6];
+
+    for (nb of slideNumbers) {
+      state.sliderImgs.push({
+        //pushing data to state.sliderImgs array
+        url: data.results[nb].urls.regular,
+        author: data.results[nb].user.name,
+        authorPage: data.results[nb].user.links.html,
+        download: data.results[nb].links.download,
+      });
+    }
+  } catch (err) {
+    throw err;
+  }
 };

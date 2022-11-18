@@ -1,6 +1,7 @@
 import * as model from './model.js';
 import dropdownView from './views/dropdownView.js';
 import infoboxView from './views/infoboxView.js';
+import mainImgView from './views/mainimgView.js';
 
 // Controlling dropdown options
 const initDropdownOptions = async () => {
@@ -22,7 +23,7 @@ const initDropdownOptions = async () => {
 const controlOutputBasedOnInput = async () => {
   try {
     infoboxView.removeMarkup(); //remove old html markup
-    // Getting actual data
+    // Getting actual data about the country
     await model.getDataBasedOnInput(infoboxView.inputValue());
     //Rendering markup in DOM
     infoboxView.createMarkup(model.state.countryData);
@@ -32,16 +33,22 @@ const controlOutputBasedOnInput = async () => {
       model.state.countryData.capital,
       model.state.countryData.name
     );
+    //Getting images data
+    await model.getImages(infoboxView.inputValue());
+    // Render main img
+    mainImgView.createMarkup(model.state.mainImg);
+    //Removing active classes from dropdown
+    dropdownView.removeActiveClassesDropdown();
   } catch (err) {
     //render err to DOM
   }
 };
 
 //Control rendering output based on dropdown user choice
-const countrolOutputBasedOnDropdown = async e => {
+const controlOutputBasedOnDropdown = async e => {
   try {
     infoboxView.removeMarkup(); //remove old html markup
-    //Getting data
+    //Getting data about the country
     await model.getDataBasedOnDropdownClick(infoboxView.dropdownValue(e));
     //Rendering markup in DOM
     infoboxView.createMarkup(model.state.countryData);
@@ -51,6 +58,11 @@ const countrolOutputBasedOnDropdown = async e => {
       model.state.countryData.capital,
       model.state.countryData.name
     );
+    //Getting images data
+    await model.getImages(infoboxView.dropdownValue(e));
+    // Render main img
+    mainImgView.createMarkup(model.state.mainImg);
+    //Removing active classes from dropdown
     dropdownView.removeActiveClassesDropdown();
   } catch (err) {
     // render err to DOM
@@ -60,7 +72,7 @@ const countrolOutputBasedOnDropdown = async e => {
 //Handlers
 const handlers = async () => {
   infoboxView.searchBtnHandler(controlOutputBasedOnInput);
-  infoboxView.dropdownBtnHandler(countrolOutputBasedOnDropdown);
+  infoboxView.dropdownBtnHandler(controlOutputBasedOnDropdown);
 };
 
 const initApp = async () => {
@@ -71,5 +83,9 @@ const initApp = async () => {
 initApp();
 
 //TODO:
-//1) removeMarkup() after new search
-//2) Render map
+//1) Get data from unsplash - model: DONE
+//2) Main img view and render main img
+//3) Make slider view and render slider - unsplash data
+//4) Get data from Wikipedia description & links
+//5) Make description view and render
+//6) Make links view and render

@@ -1,9 +1,15 @@
 //Helper for fetching and parsing data
 export const fetchData = async url => {
-  const res = await fetch(url);
-  const data = await res.json();
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
 
-  return data;
+    if (!res.ok) throw new Error(data.message);
+
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 //Formatting number (used for formatting large numbers e.g population)

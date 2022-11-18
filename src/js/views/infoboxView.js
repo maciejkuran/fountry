@@ -1,4 +1,3 @@
-import { addValueBetweenWords } from '../helpers.js';
 import icons from '../../img/icons/*.png'; //importing all icons
 
 class Infobox {
