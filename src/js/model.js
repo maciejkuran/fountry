@@ -5,21 +5,27 @@ import {
   currencyCheck,
   capitalCheck,
   languagesCheck,
+  formatInputForWiki,
 } from './helpers.js';
-import { COUNTRIES_API, UNSPLASH_API } from './config.js';
+import {
+  COUNTRIES_API,
+  UNSPLASH_API,
+  WIKIPEDIA_GET_DESC_API,
+} from './config.js';
 
-//Holds important data
+//Object holds application data
 export const state = {
-  countryData: {}, // specific country data
+  countryData: {}, // country data that goes to 'infobox'
   allCountryNames: [], //sorted array of all country names
-  mainImg: {},
-  sliderImgs: [],
+  mainImg: {}, // main img
+  sliderImgs: [], //slider imgs
+  countryDescription: '', //country description
 };
 
 //Get all countries in the world
 export const getAllCountryNames = async () => {
   try {
-    const data = await fetchData(`${COUNTRIES_API}all`, 'Cannot fetch data.');
+    const data = await fetchData(`${COUNTRIES_API}all`);
     data.forEach(object => state.allCountryNames.push(object.name.common));
     state.allCountryNames.sort();
   } catch (err) {
@@ -30,10 +36,7 @@ export const getAllCountryNames = async () => {
 //Getting data based on dropdown click and storing to state.countryData object
 export const getDataBasedOnDropdownClick = async clickedCountry => {
   try {
-    const [data] = await fetchData(
-      `${COUNTRIES_API}name/${clickedCountry}`,
-      'Cannot fetch data.'
-    );
+    const [data] = await fetchData(`${COUNTRIES_API}name/${clickedCountry}`);
     addPropertiesCountryDataObject(data);
   } catch (err) {
     throw err;
@@ -42,10 +45,7 @@ export const getDataBasedOnDropdownClick = async clickedCountry => {
 //Getting data based on user input and storing to state.countryData object
 export const getDataBasedOnInput = async input => {
   try {
-    const allResults = await fetchData(
-      `${COUNTRIES_API}all`,
-      'Cannot fetch data.'
-    );
+    const allResults = await fetchData(`${COUNTRIES_API}all`);
     //prettier-ignore
     const data = allResults.find(country =>
       country.name.common.toLowerCase() === input ||
@@ -112,7 +112,7 @@ export const loadMap = (coords, city, country) => {
   });
 };
 
-//Getting unsplash main img
+//Getting unsplash images - main img and slider imgs
 export const getImages = async country => {
   try {
     //Setting state.sliderImgs array to empty
@@ -144,6 +144,27 @@ export const getImages = async country => {
         download: data.results[nb].links.download,
       });
     }
+  } catch (err) {
+    throw err;
+  }
+};
+
+//Get description data from Wikipedia
+export const getDescription = async country => {
+  try {
+    const input = formatInputForWiki(country);
+    const data = await fetchData(WIKIPEDIA_GET_DESC_API(input));
+
+    const getPropertyName = Object.keys(data.query.pages)[0];
+    //handling error
+    if (Object.keys(data.query.pages)[0] === '-1')
+      throw new Error('Cannot fetch data from Wikipedia');
+
+    const extractedDescription = data.query?.pages[
+      getPropertyName
+    ]?.extract.replaceAll('\n', '<br/><br/>');
+
+    state.countryDescription = extractedDescription;
   } catch (err) {
     throw err;
   }

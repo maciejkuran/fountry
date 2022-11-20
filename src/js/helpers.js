@@ -1,14 +1,14 @@
 //Helper for fetching and parsing data
-export const fetchData = async url => {
+export const fetchData = async (url, errMsg) => {
   try {
     const res = await fetch(url);
     const data = await res.json();
 
-    if (!res.ok) throw new Error(data.message);
+    if (!res.ok) throw new Error(errMsg);
 
     return data;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 };
 
@@ -28,6 +28,18 @@ export const addValueBetweenWords = input => {
   } else {
     return arr.join('');
   }
+};
+
+//Formatting input for Wikipedia fetch
+export const formatInputForWiki = input => {
+  return input
+    .toLowerCase()
+    .split(' ')
+    .map(string => {
+      return string[0].toUpperCase() + string.slice(1);
+    })
+    .join(' ')
+    .replaceAll(' ', '_');
 };
 
 //Helper for rendering error in DOM
