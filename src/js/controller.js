@@ -24,41 +24,46 @@ const initDropdownOptions = async () => {
   }
 };
 
+//Function gets and renders data, called in controlOutputBasedOnInput and controlOutputBasedOnDropdown
+const fetchAndRender = async country => {
+  errorView.clearMarkup(); //clear error markup
+  infoboxView.removeMarkup(); //remove old html markup
+  //Removing active classes from dropdown
+  dropdownView.removeActiveClassesDropdown();
+  //Rendering markup in DOM
+  infoboxView.createMarkup(model.state.countryData);
+  //Rendering leaflet map
+  model.loadMap(
+    model.state.countryData.capitalCoords,
+    model.state.countryData.capital,
+    model.state.countryData.name
+  );
+  //Getting images data
+  await model.getImages(country);
+  // Render main img
+  mainImgView.createMarkup(model.state.mainImg);
+  //Rendering slider imgs
+  sliderView.createMarkup(model.state.sliderImgs);
+  // Init slider
+  sliderView.setSlide(0); //set first img as first slide
+  sliderView.addHandler();
+  //Rendering description
+  await model.getDescription(country);
+  descriptionView.createMarkup(
+    model.state.countryDescription,
+    model.state.countryData
+  );
+  //Rendering links
+  await model.getLinks(country);
+  linksView.createMarkup(model.state.sourceLinks);
+};
+
 //Control rendering output based on user input
 const controlOutputBasedOnInput = async () => {
   try {
-    errorView.clearMarkup(); //clear error markup
-    infoboxView.removeMarkup(); //remove old html markup
     // Getting actual data about the country
     await model.getDataBasedOnInput(infoboxView.inputValue());
-    //Rendering markup in DOM
-    infoboxView.createMarkup(model.state.countryData);
-    //Rendering leaflet map
-    model.loadMap(
-      model.state.countryData.capitalCoords,
-      model.state.countryData.capital,
-      model.state.countryData.name
-    );
-    //Getting images data
-    await model.getImages(infoboxView.inputValue());
-    // Render main img
-    mainImgView.createMarkup(model.state.mainImg);
-    //Rendering slider imgs
-    sliderView.createMarkup(model.state.sliderImgs);
-    // Init slider
-    sliderView.setSlide(0); //set first img as first slide
-    sliderView.addHandler();
-    //Rendering description
-    await model.getDescription(infoboxView.inputValue());
-    descriptionView.createMarkup(
-      model.state.countryDescription,
-      model.state.countryData
-    );
-    //Rendering links
-    await model.getLinks(infoboxView.inputValue());
-    linksView.createMarkup(model.state.sourceLinks);
-    //Removing active classes from dropdown
-    dropdownView.removeActiveClassesDropdown();
+    fetchAndRender(infoboxView.inputValue());
   } catch (err) {
     //Rendering error message
     errorView.createMarkup(
@@ -74,34 +79,7 @@ const controlOutputBasedOnDropdown = async e => {
     infoboxView.removeMarkup(); //remove old html markup
     //Getting data about the country
     await model.getDataBasedOnDropdownClick(infoboxView.dropdownValue(e));
-    //Rendering markup in DOM
-    infoboxView.createMarkup(model.state.countryData);
-    //Rendering leaflet map
-    model.loadMap(
-      model.state.countryData.capitalCoords,
-      model.state.countryData.capital,
-      model.state.countryData.name
-    );
-    //Getting images data
-    await model.getImages(infoboxView.dropdownValue(e));
-    // Render main img
-    mainImgView.createMarkup(model.state.mainImg);
-    //Rendering slider imgs
-    sliderView.createMarkup(model.state.sliderImgs);
-    // Init slider
-    sliderView.setSlide(0); //set first img as first slide
-    sliderView.addHandler();
-    //Rendering description
-    await model.getDescription(infoboxView.dropdownValue(e));
-    descriptionView.createMarkup(
-      model.state.countryDescription,
-      model.state.countryData
-    );
-    //Rendering links
-    await model.getLinks(infoboxView.inputValue());
-    linksView.createMarkup(model.state.sourceLinks);
-    //Removing active classes from dropdown
-    dropdownView.removeActiveClassesDropdown();
+    fetchAndRender(infoboxView.dropdownValue(e));
   } catch (err) {
     //Rendering error message
     errorView.createMarkup(
@@ -122,13 +100,3 @@ const initApp = async () => {
 };
 
 initApp();
-
-//TODO:
-//1) Get data from unsplash - model: DONE
-//2) Main img view and render main img: DONE
-//3) Make slider view and render slider - unsplash data: DONE
-//4) Get data from Wikipedia description & links: DONE
-//5) Make description view and render: DONE
-//6) Make links view and render: DONE
-//7) Handle errors everywhere! (render in DOM)
-//8)**Refactor controlOutput functions in controller as they look the same
