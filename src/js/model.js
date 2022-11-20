@@ -1,16 +1,11 @@
-import {
-  fetchData,
-  formatNumber,
-  addValueBetweenWords,
-  currencyCheck,
-  capitalCheck,
-  languagesCheck,
-  formatInputForWiki,
-} from './helpers.js';
+//prettier-ignore
+import {fetchData, formatNumber, addValueBetweenWords, currencyCheck,
+capitalCheck, languagesCheck, formatInputForWiki} from './helpers.js';
 import {
   COUNTRIES_API,
   UNSPLASH_API,
   WIKIPEDIA_GET_DESC_API,
+  WIKIPEDIA_GET_LINKS_API,
 } from './config.js';
 
 //Object holds application data
@@ -20,6 +15,7 @@ export const state = {
   mainImg: {}, // main img
   sliderImgs: [], //slider imgs
   countryDescription: '', //country description
+  sourceLinks: [],
 };
 
 //Get all countries in the world
@@ -153,7 +149,10 @@ export const getImages = async country => {
 export const getDescription = async country => {
   try {
     const input = formatInputForWiki(country);
-    const data = await fetchData(WIKIPEDIA_GET_DESC_API(input));
+    const data = await fetchData(
+      WIKIPEDIA_GET_DESC_API(input),
+      'Problem with fetching data from Wikipedia'
+    );
 
     const getPropertyName = Object.keys(data.query.pages)[0];
     //handling error
@@ -165,6 +164,22 @@ export const getDescription = async country => {
     ]?.extract.replaceAll('\n', '<br/><br/>');
 
     state.countryDescription = extractedDescription;
+  } catch (err) {
+    throw err;
+  }
+};
+
+//Get source links data from Wikipedia
+export const getLinks = async country => {
+  try {
+    const input = formatInputForWiki(country);
+    const data = await fetchData(
+      WIKIPEDIA_GET_LINKS_API(input),
+      'Problem with fetching data from Wikipedia'
+    );
+
+    const links = data[3];
+    state.sourceLinks = links;
   } catch (err) {
     throw err;
   }

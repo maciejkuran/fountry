@@ -4,6 +4,7 @@ import infoboxView from './views/infoboxView.js';
 import mainImgView from './views/mainimgView.js';
 import sliderView from './views/sliderView.js';
 import descriptionView from './views/descriptionView.js';
+import linksView from './views/linksView.js';
 
 // Controlling dropdown options
 const initDropdownOptions = async () => {
@@ -18,8 +19,6 @@ const initDropdownOptions = async () => {
     //render err to DOM
   }
 };
-
-// initDropdownOptions();
 
 //Control rendering output based on user input
 const controlOutputBasedOnInput = async () => {
@@ -50,6 +49,9 @@ const controlOutputBasedOnInput = async () => {
       model.state.countryDescription,
       model.state.countryData
     );
+    //Rendering links
+    await model.getLinks(infoboxView.inputValue());
+    linksView.createMarkup(model.state.sourceLinks);
     //Removing active classes from dropdown
     dropdownView.removeActiveClassesDropdown();
   } catch (err) {
@@ -86,6 +88,9 @@ const controlOutputBasedOnDropdown = async e => {
       model.state.countryDescription,
       model.state.countryData
     );
+    //Rendering links
+    await model.getLinks(infoboxView.inputValue());
+    linksView.createMarkup(model.state.sourceLinks);
     //Removing active classes from dropdown
     dropdownView.removeActiveClassesDropdown();
   } catch (err) {
@@ -110,8 +115,8 @@ initApp();
 //1) Get data from unsplash - model: DONE
 //2) Main img view and render main img: DONE
 //3) Make slider view and render slider - unsplash data: DONE
-//4) Get data from Wikipedia description & links
-//5) Make description view and render
-//6) Make links view and render
+//4) Get data from Wikipedia description & links: DONE
+//5) Make description view and render: DONE
+//6) Make links view and render: DONE
 //7) Handle errors everywhere! (render in DOM)
 //8)**Refactor controlOutput functions in controller as they look the same
