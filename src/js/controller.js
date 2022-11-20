@@ -5,6 +5,7 @@ import mainImgView from './views/mainimgView.js';
 import sliderView from './views/sliderView.js';
 import descriptionView from './views/descriptionView.js';
 import linksView from './views/linksView.js';
+import errorView from './views/errorView.js';
 
 // Controlling dropdown options
 const initDropdownOptions = async () => {
@@ -16,13 +17,17 @@ const initDropdownOptions = async () => {
     //allow toggling options container
     dropdownView.addHandler();
   } catch (err) {
-    //render err to DOM
+    //Rendering error message
+    errorView.createMarkup(
+      `🔴 Something went wrong: ${err.message} Try again!`
+    );
   }
 };
 
 //Control rendering output based on user input
 const controlOutputBasedOnInput = async () => {
   try {
+    errorView.clearMarkup(); //clear error markup
     infoboxView.removeMarkup(); //remove old html markup
     // Getting actual data about the country
     await model.getDataBasedOnInput(infoboxView.inputValue());
@@ -55,13 +60,17 @@ const controlOutputBasedOnInput = async () => {
     //Removing active classes from dropdown
     dropdownView.removeActiveClassesDropdown();
   } catch (err) {
-    //render err to DOM
+    //Rendering error message
+    errorView.createMarkup(
+      `🔴 Something went wrong: ${err.message} Try again!`
+    );
   }
 };
 
 //Control rendering output based on dropdown user choice
 const controlOutputBasedOnDropdown = async e => {
   try {
+    errorView.clearMarkup(); //clear error markup
     infoboxView.removeMarkup(); //remove old html markup
     //Getting data about the country
     await model.getDataBasedOnDropdownClick(infoboxView.dropdownValue(e));
@@ -94,7 +103,10 @@ const controlOutputBasedOnDropdown = async e => {
     //Removing active classes from dropdown
     dropdownView.removeActiveClassesDropdown();
   } catch (err) {
-    // render err to DOM
+    //Rendering error message
+    errorView.createMarkup(
+      `🔴 Something went wrong: ${err.message} Try again!`
+    );
   }
 };
 

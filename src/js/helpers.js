@@ -1,5 +1,5 @@
 //Helper for fetching and parsing data
-export const fetchData = async (url, errMsg) => {
+export const fetchData = async (url, errMsg = 'Cannot fetch data.') => {
   try {
     const res = await fetch(url);
     const data = await res.json();
@@ -33,6 +33,7 @@ export const addValueBetweenWords = input => {
 //Formatting input for Wikipedia fetch
 export const formatInputForWiki = input => {
   return input
+    .trim()
     .toLowerCase()
     .split(' ')
     .map(string => {
