@@ -132,7 +132,6 @@ export const getImages = async country => {
     const slideNumbers = [1, 2, 3, 4, 5, 6];
 
     for (let nb of slideNumbers) {
-      console.log(nb);
       state.sliderImgs.push({
         //pushing data to state.sliderImgs array
         url: data.results[nb].urls.regular,
