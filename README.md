@@ -16,4 +16,4 @@ The fountry app allows you to search for any country in the world, provides basi
 
 ## UI Design
 
-<p align="center"><img src="/img/fountry ui presentation.jpg"></p>
+<p align="center"><img src="/src/img/fountry ui presentation.jpg"></p>
