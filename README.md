@@ -2,7 +2,7 @@
 
 <p align="center"><img src="/src/img/fountry banner.jpg"></p>
 
-The fountry app is my next project, this time practicing `asynchronous` tasks in JavaScript. I developed fountry in the<b> MVC architecture pattern</b>.
+The fountry app is my next project, this time practicing `asynchronous` tasks in JavaScript. I developed fountry in the<b> MVC architecture pattern</b>. I focused on the architecture of the application and a good, logical division of the code.
 
 This project is complex in the context of `fetching data` from various APIs: `Rest Countries API`, `Unsplash.com API`, `Wikipedia API`. I also used the `Leaflet library` (interactive maps) to render `coords` of a country/capital.
 
