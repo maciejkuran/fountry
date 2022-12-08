@@ -1,4 +1,5 @@
 import * as model from './model.js';
+import navbarView from './views/navbarView.js';
 import dropdownView from './views/dropdownView.js';
 import infoboxView from './views/infoboxView.js';
 import mainImgView from './views/mainimgView.js';
@@ -6,6 +7,13 @@ import sliderView from './views/sliderView.js';
 import descriptionView from './views/descriptionView.js';
 import linksView from './views/linksView.js';
 import errorView from './views/errorView.js';
+
+// Controlling navbar - displaying search btn when user scrolls up, by default search btn has set className 'hide' and smooth scroll to search container when click btn
+const controlNavbar = () => {
+  navbarView.addHandler();
+};
+
+controlNavbar();
 
 // Controlling dropdown options
 const initDropdownOptions = async () => {
